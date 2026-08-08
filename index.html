@@ -77,15 +77,16 @@
       right: 0;
       z-index: 20;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 1.5rem 0.75rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.75rem 1.5rem 0.9rem;
     }
     @media (min-width: 640px) {
-      .v-navbar { padding: 0.5rem 2.5rem 0.75rem; }
+      .v-navbar { padding: 0.75rem 2.5rem 0.9rem; }
     }
     @media (min-width: 1024px) {
-      .v-navbar { padding: 0.75rem 4rem 1rem; }
+      .v-navbar { padding: 0.9rem 4rem 1.1rem; }
     }
     .v-navbar .brand {
       font-family: 'FSP DEMO - PODIUM Sharp 4.11', serif;
@@ -98,9 +99,9 @@
     @media (min-width: 640px) {
       .v-navbar .brand { font-size: 1.875rem; }
     }
-    .desktop-nav { display: none; }
+    .desktop-nav { display: flex; align-items: center; gap: 1.5rem; }
     .desktop-cta { display: none; }
-    .mobile-hamburger { display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; padding: 0.25rem; cursor: pointer; }
+    .mobile-hamburger { display: none; }
     .mobile-hamburger span { display: block; background: white; height: 2px; transition: all 0.3s; }
     .mobile-hamburger span:nth-child(3) { width: 1rem; }
     @media (min-width: 769px) {
@@ -115,25 +116,9 @@
         transition: color 0.2s;
       }
       .desktop-nav a:hover { color: white; }
-      .desktop-cta { display: block; }
-      .desktop-cta a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        border: 1px solid rgba(255,255,255,0.3);
-        padding: 0.5rem 1.25rem;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-family: 'Inter', sans-serif;
-        color: white;
-        transition: all 0.3s;
-        text-decoration: none;
-        border-radius: 0;
-      }
-      .desktop-cta a:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); }
+      .desktop-cta { display: none; }
       .mobile-hamburger { display: none; }
-      .v-mobile-menu { display: none; }
+      .v-mobile-menu { display: none !important; }
     }
     .v-mobile-menu {
       position: fixed;
@@ -281,29 +266,10 @@
         <a href="#contact">Contact</a>
       </div>
       <div class="desktop-cta">
-        <a href="#"><i data-lucide="arrow-up-right" class="w-4 h-4 inline"></i> GET IN TOUCH</a>
-      </div>
-      <div class="mobile-hamburger" id="v-menuToggle">
-        <span></span><span></span><span></span>
+        <a><i data-lucide="arrow-up-right" class="w-4 h-4 inline"></i> GET IN TOUCH</a>
       </div>
     </nav>
-
-    <div id="v-mobileMenu" class="v-mobile-menu closed">
-      <div class="flex items-center justify-between px-6 py-5">
-        <div class="font-podium text-2xl font-bold uppercase tracking-wider text-white">VANGUARD</div>
-        <button id="v-closeMenu" class="p-2" aria-label="Close menu">
-          <i data-lucide="x" class="w-6 h-6 text-white"></i>
-        </button>
-      </div>
-      <div class="flex-1 flex flex-col items-center justify-center gap-8">
-        <a href="#about" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="0">About</a>
-        <a href="#services" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="1">Price</a>
-        <a href="#projects" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="2">Projects</a>
-        <a href="#contact" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="3">Contact</a>
-        <a href="#" class="v-menu-item closed border border-white/30 hover:border-white/60 px-8 py-4 text-xs tracking-widest uppercase font-inter hover:bg-white/10 transition-all" data-index="4">GET IN TOUCH</a>
-      </div>
     </div>
-  </div>
 
   <!-- ===== VANGUARD CONTENT ===== -->
   <section class="vanguard-content-section">
@@ -322,7 +288,7 @@
         that don't just turn heads — <span class="text-white font-bold">they lead.</span>
       </p>
       <div class="flex flex-wrap items-center gap-4 sm:gap-6 mt-4 lg:mt-5 vanguard-animate-fade-up-delay-3 opacity-0">
-        <a href="#" class="group inline-flex items-center gap-2 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-2.5 sm:py-3 text-[11px] sm:text-xs tracking-widest uppercase font-inter transition-all">
+        <a class="group inline-flex items-center gap-2 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-2.5 sm:py-3 text-[11px] sm:text-xs tracking-widest uppercase font-inter transition-all">
           SEE OUR WORK
           <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
         </a>
@@ -381,10 +347,6 @@
   <!-- ===== ABOUT (only bottom decorative images) ===== -->
   <section class="about-wrap relative px-5 sm:px-8 md:px-10 bg-[#0C0C0C]" id="about">
     <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto py-4">
-      <!-- Bottom-left 3D object -->
-      <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="3d object" class="absolute bottom-[5%] left-[2%] sm:left-[4%] md:left-[8%] w-[80px] sm:w-[110px] md:w-[140px] animate-fade-in" style="animation-delay: 0.25s; z-index: 0;" />
-      <!-- Bottom-right 3D group -->
-      <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="3d group" class="absolute bottom-[5%] right-[2%] sm:right-[4%] md:right-[8%] w-[100px] sm:w-[130px] md:w-[170px] animate-fade-in" style="animation-delay: 0.3s; z-index: 0;" />
 
       <div class="relative z-10 flex flex-col items-center text-center">
         <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-[clamp(2.5rem,10vw,140px)] text-center">
@@ -475,43 +437,7 @@
       });
     }
     lucide.createIcons();
-
-    // Mobile menu
-    const vMenuToggle = document.getElementById('v-menuToggle');
-    const vCloseMenu = document.getElementById('v-closeMenu');
-    const vMobileMenu = document.getElementById('v-mobileMenu');
-    const vMenuItems = document.querySelectorAll('.v-menu-item');
-
-    function vOpenMenu() {
-      vMobileMenu.classList.remove('closed');
-      vMobileMenu.classList.add('open');
-      vMenuItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.classList.remove('closed');
-          item.classList.add('open');
-        }, index * 80 + 100);
-      });
-    }
-    function vCloseMenuFunc() {
-      vMobileMenu.classList.remove('open');
-      vMobileMenu.classList.add('closed');
-      vMenuItems.forEach(item => {
-        item.classList.remove('open');
-        item.classList.add('closed');
-      });
-    }
-    if (vMenuToggle) vMenuToggle.addEventListener('click', vOpenMenu);
-    if (vCloseMenu) vCloseMenu.addEventListener('click', vCloseMenuFunc);
-    vMenuItems.forEach(item => {
-      item.addEventListener('click', vCloseMenuFunc);
-    });
-    if (vMobileMenu) {
-      vMobileMenu.addEventListener('click', function(e) {
-        if (e.target === vMobileMenu) vCloseMenuFunc();
-      });
-    }
-
-    // Marquee images
+// Marquee images
     const gifs1 = [
       'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
       'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
