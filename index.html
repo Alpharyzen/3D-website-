@@ -55,7 +55,7 @@
       position: relative;
       width: 100%;
       overflow: hidden;
-      background: #000;
+      background: #000000;
     }
     .vanguard-video-section video {
       display: block;
@@ -233,7 +233,7 @@
     .marquee-wrap { padding: 20px 0 0; }
     .about-wrap { padding: 20px 0; }
     .services-wrap { padding: 20px 0; }
-    .projects-wrap { padding: 20px 0; margin-top: 0; }
+    .projects-wrap { padding: 20px 0; margin-top: 20px; }
     .contact-wrap { padding: 20px 0; }
 
     .stat-number {
@@ -242,7 +242,14 @@
       color: white;
       letter-spacing: -0.02em;
     }
-  </style>
+  
+    @media (max-width: 639px) {
+      .projects-wrap .project-card:nth-child(3) {
+        transform: translateY(32px);
+      }
+    }
+
+</style>
 </head>
 <body>
 
@@ -558,7 +565,7 @@
       projectData.forEach((project, idx) => {
         const total = projectData.length;
         const scale = 1 - (total - 1 - idx) * 0.03;
-        const topOffset = idx * 28;
+        const topOffset = idx * 14;
 
         const card = document.createElement('div');
         card.className = 'sticky-card';
