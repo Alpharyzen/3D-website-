@@ -3,362 +3,509 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VANGUARD — Creative Agency</title>
+  <title>Jack — 3D Creator</title>
 
-  <!-- Fonts -->
+  <!-- Google Font: Kanit -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11" />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS via CDN (Play) -->
+  <!-- Tailwind CSS via Play CDN (lightweight) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Lucide Icons (UMD) -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-
   <style>
-    /* Reset & Base */
+    /* Reset & base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0a0a0f;
-      color: #fff;
-      -webkit-font-smoothing: antialiased;
+    html, body { background: #0C0C0C; color: #D7E2EA; font-family: 'Kanit', sans-serif; scroll-behavior: smooth; overflow-x: clip; }
+    .hero-heading {
+      background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-
-    /* Font utilities (Tailwind CDN doesn't have custom fonts) */
-    .font-podium {
-      font-family: 'FSP DEMO - PODIUM Sharp 4.11', serif;
+    /* Contact button */
+    .contact-btn {
+      background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
+      box-shadow: 0px 4px 4px rgba(181,1,167,0.25), 4px 4px 12px #7721B1 inset;
+      outline: 2px solid white;
+      outline-offset: -3px;
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      padding: 12px 30px;
+      border-radius: 9999px;
+      font-size: clamp(0.8rem, 1.2vw, 1rem);
     }
-    .font-inter {
-      font-family: 'Inter', sans-serif;
+    .contact-btn:hover { transform: scale(1.04); opacity: 0.9; }
+    /* Live project button */
+    .live-btn {
+      border: 2px solid #D7E2EA;
+      color: #D7E2EA;
+      background: transparent;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      padding: 8px 20px;
+      font-size: clamp(0.7rem, 1vw, 0.9rem);
     }
-
-    /* Animation keyframes */
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
+    .live-btn:hover { background: rgba(215,226,234,0.1); }
+    /* Marquee images */
+    .marquee-image {
+      width: 420px;
+      height: 270px;
+      object-fit: cover;
+      border-radius: 1rem;
+      flex-shrink: 0;
     }
-    @keyframes fade-in {
+    /* Sticky project cards */
+    .sticky-card {
+      position: sticky;
+      top: 24px;
+      height: 85vh;
+    }
+    @media (min-width: 768px) { .sticky-card { top: 32px; } }
+    .project-img { border-radius: 40px; }
+    @media (min-width: 640px) { .project-img { border-radius: 50px; } }
+    @media (min-width: 768px) { .project-img { border-radius: 60px; } }
+    /* Fade-in animation for decorative images */
+    @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes scale-in {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
+    .animate-fade-in {
+      animation: fadeIn 0.9s ease-out forwards;
     }
-
-    /* Animation classes */
-    .animate-fade-up {
-      animation: fade-up 0.8s ease-out forwards;
-    }
-    .animate-fade-up-delay-1 {
-      animation: fade-up 0.8s ease-out 0.2s forwards;
+    /* Scroll-driven fade-in for sections */
+    .fade-section {
       opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    .animate-fade-up-delay-2 {
-      animation: fade-up 0.8s ease-out 0.4s forwards;
-      opacity: 0;
-    }
-    .animate-fade-up-delay-3 {
-      animation: fade-up 0.8s ease-out 0.6s forwards;
-      opacity: 0;
-    }
-    .animate-fade-up-delay-4 {
-      animation: fade-up 0.8s ease-out 0.8s forwards;
-      opacity: 0;
-    }
-
-    /* Video fallback (gradient) */
-    .video-fallback {
-      background: radial-gradient(circle at 30% 40%, #1a1a2e 0%, #0a0a0f 100%);
-    }
-    /* Ensure video container has min height */
-    .video-container {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-    }
-    .video-container video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    /* Hide video if error class is added */
-    .video-container.error video {
-      display: none;
-    }
-    /* Overlay */
-    .overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.3);
-      z-index: 10;
-    }
-    /* Content wrapper */
-    .content-wrapper {
-      position: relative;
-      z-index: 20;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-    /* Mobile menu overlay */
-    .mobile-menu {
-      position: fixed;
-      inset: 0;
-      z-index: 50;
-      background: rgba(0,0,0,0.95);
-      backdrop-filter: blur(8px);
-      transition: opacity 0.5s, visibility 0.5s;
-      display: flex;
-      flex-direction: column;
-    }
-    .mobile-menu.closed {
-      opacity: 0;
-      visibility: hidden;
-    }
-    .mobile-menu.open {
-      opacity: 1;
-      visibility: visible;
-    }
-    /* Staggered menu items: use inline styles via JS */
-    .menu-item {
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .menu-item.closed {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    .menu-item.open {
+    .fade-section.visible {
       opacity: 1;
       transform: translateY(0);
     }
-    /* Hamburger bars */
-    .hamburger span {
-      display: block;
-      background: white;
-      height: 2px;
-      transition: all 0.3s;
-    }
-    .hamburger span:nth-child(3) {
-      width: 1rem;
-    }
-    /* Stat numbers */
-    .stat-number {
-      font-family: 'Inter', sans-serif;
-      font-weight: 700;
-      color: white;
-      letter-spacing: -0.02em;
-    }
-    /* Responsive tweaks */
-    @media (max-width: 768px) {
-      .desktop-nav { display: none; }
-      .mobile-hamburger { display: flex; }
-    }
-    @media (min-width: 769px) {
-      .desktop-nav { display: flex; }
-      .mobile-hamburger { display: none; }
-      .mobile-menu { display: none; }
-    }
-    /* Ensure desktop CTA is visible */
-    .desktop-cta { display: block; }
-    @media (max-width: 768px) {
-      .desktop-cta { display: none; }
+    /* Character animation for about text (simplified) */
+    .char-anim span {
+      display: inline-block;
+      transition: opacity 0.3s;
     }
   </style>
 </head>
 <body>
-  <!-- Root container -->
-  <div class="relative h-screen w-screen overflow-hidden">
 
-    <!-- Background Video Container -->
-    <div id="videoContainer" class="video-container">
-      <video id="bgVideo" autoplay muted loop playsInline
-             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260606_154941_df1a96e1-a06f-450c-bd02-d863414cc1a0.mp4">
-      </video>
-    </div>
+  <!-- ====== HERO ====== -->
+  <section class="h-screen flex flex-col relative overflow-x-clip bg-[#0C0C0C]">
+    <!-- Navbar -->
+    <nav class="flex justify-between px-6 md:px-10 pt-6 md:pt-8 text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">
+      <a href="#" class="hover:opacity-70 transition-opacity duration-200">About</a>
+      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Price</a>
+      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Projects</a>
+      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Contact</a>
+    </nav>
 
-    <!-- Dark Overlay -->
-    <div class="overlay"></div>
+    <!-- Hero content -->
+    <div class="flex-1 flex flex-col justify-between pb-7 sm:pb-8 md:pb-10">
+      <div class="overflow-hidden w-full mt-6 sm:mt-4 md:-mt-5">
+        <h1 class="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw]">
+          Hi, i'm jack
+        </h1>
+      </div>
 
-    <!-- Content -->
-    <div class="content-wrapper">
-
-      <!-- Navbar -->
-      <nav class="flex items-center justify-between px-6 sm:px-10 lg:px-16 py-5 lg:py-7">
-        <div class="font-podium text-2xl sm:text-3xl font-bold uppercase tracking-wider text-white">
-          VANGUARD
-        </div>
-
-        <!-- Desktop Nav (md+) -->
-        <div class="desktop-nav items-center gap-8 lg:gap-12">
-          <a href="#" class="font-inter text-sm text-white/80 hover:text-white transition-colors tracking-widest uppercase">Projects</a>
-          <a href="#" class="font-inter text-sm text-white/80 hover:text-white transition-colors tracking-widest uppercase">Studio</a>
-          <a href="#" class="font-inter text-sm text-white/80 hover:text-white transition-colors tracking-widest uppercase">Offerings</a>
-          <a href="#" class="font-inter text-sm text-white/80 hover:text-white transition-colors tracking-widest uppercase">Inquire</a>
-        </div>
-
-        <!-- Desktop CTA (md+) -->
-        <div class="desktop-cta">
-          <a href="#" class="inline-flex items-center gap-2 border border-white/30 hover:border-white/60 px-6 py-3 text-xs tracking-widest uppercase font-inter hover:bg-white/10 transition-all rounded-none">
-            GET IN TOUCH
-            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Hamburger (mobile) -->
-        <button id="menuToggle" class="mobile-hamburger flex-col items-end space-y-1.5 p-1" aria-label="Open menu">
-          <span class="w-6 h-0.5"></span>
-          <span class="w-6 h-0.5"></span>
-          <span class="w-4 h-0.5"></span>
-        </button>
-      </nav>
-
-      <!-- Hero Content -->
-      <div class="flex-1 flex items-center px-6 sm:px-10 lg:px-16 pb-16 lg:pb-24">
-        <div class="max-w-3xl">
-          <!-- Tagline -->
-          <div class="flex items-center gap-3 mb-6 lg:mb-8 animate-fade-up opacity-0">
-            <i data-lucide="crown" class="w-4 h-4 text-white/70"></i>
-            <span class="text-white/70 text-xs sm:text-sm font-inter tracking-[0.3em] uppercase">World-Class Digital Collective</span>
-          </div>
-
-          <!-- Main Heading -->
-          <h1 class="font-podium text-white uppercase leading-[0.92] tracking-tight">
-            <div class="text-[clamp(2.8rem,8vw,7rem)] animate-fade-up-delay-1">Design.</div>
-            <div class="text-[clamp(2.8rem,8vw,7rem)] animate-fade-up-delay-1">Disrupt.</div>
-            <div class="text-[clamp(2.8rem,8vw,7rem)] animate-fade-up-delay-1">Conquer.</div>
-          </h1>
-
-          <!-- Subtext -->
-          <p class="text-white/70 text-sm sm:text-base font-inter leading-relaxed max-w-md mt-6 lg:mt-8 animate-fade-up-delay-2 opacity-0">
-            We build fierce brand identities<br />
-            that don't just turn heads — <span class="text-white font-bold">they lead.</span>
-          </p>
-
-          <!-- CTA Row -->
-          <div class="flex flex-wrap items-center gap-4 sm:gap-6 mt-8 lg:mt-10 animate-fade-up-delay-3 opacity-0">
-            <a href="#" class="group inline-flex items-center gap-2 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-3 sm:py-4 text-[11px] sm:text-xs tracking-widest uppercase font-inter transition-all">
-              SEE OUR WORK
-              <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
-            </a>
-            <div class="hidden sm:flex items-center gap-3">
-              <i data-lucide="award" class="w-8 h-8 text-white/50"></i>
-              <div>
-                <div class="text-white/60 text-xs tracking-wider uppercase">Top-Rated</div>
-                <div class="text-white/60 text-xs tracking-wider uppercase">Brand Studio</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stats Row -->
-          <div class="flex flex-wrap gap-6 sm:gap-12 lg:gap-16 mt-8 sm:mt-10 lg:mt-14 animate-fade-up-delay-4 opacity-0">
-            <div>
-              <div class="stat-number text-2xl sm:text-4xl lg:text-5xl">250+</div>
-              <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">Brands Transformed</div>
-            </div>
-            <div>
-              <div class="stat-number text-2xl sm:text-4xl lg:text-5xl">95%</div>
-              <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">Client Retention</div>
-            </div>
-            <div>
-              <div class="stat-number text-2xl sm:text-4xl lg:text-5xl">10+</div>
-              <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-1">Years in the Game</div>
-            </div>
-          </div>
-        </div>
+      <div class="flex justify-between items-end px-6 md:px-10">
+        <p class="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
+          a 3d creator driven by crafting striking and unforgettable projects
+        </p>
+        <button class="contact-btn">Contact Me</button>
       </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobileMenu" class="mobile-menu closed">
-      <div class="flex items-center justify-between px-6 py-5">
-        <div class="font-podium text-2xl font-bold uppercase tracking-wider text-white">VANGUARD</div>
-        <button id="closeMenu" class="p-2" aria-label="Close menu">
-          <i data-lucide="x" class="w-6 h-6 text-white"></i>
-        </button>
-      </div>
-      <div class="flex-1 flex flex-col items-center justify-center gap-8">
-        <a href="#" class="menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="0">Projects</a>
-        <a href="#" class="menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="1">Studio</a>
-        <a href="#" class="menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="2">Offerings</a>
-        <a href="#" class="menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="3">Inquire</a>
-        <a href="#" class="menu-item closed border border-white/30 hover:border-white/60 px-8 py-4 text-xs tracking-widest uppercase font-inter hover:bg-white/10 transition-all" data-index="4">GET IN TOUCH</a>
+    <!-- Portrait with magnetic effect (vanilla) -->
+    <div class="absolute left-1/2 -translate-x-1/2 z-10 top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]" id="portrait-wrapper">
+      <div id="magnet-container" style="will-change: transform; transition: transform 0.3s ease-out;">
+        <img
+          src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
+          alt="Jack Portrait"
+          class="w-full object-cover"
+          draggable="false"
+        />
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- JavaScript -->
+  <!-- ====== MARQUEE ====== -->
+  <section class="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden" id="marquee-section">
+    <div class="flex flex-col gap-3">
+      <div id="marquee-row1" class="flex gap-3 will-change-transform" style="transform: translateX(-200px);">
+        <!-- Will be filled by JS with 11 images tripled -->
+      </div>
+      <div id="marquee-row2" class="flex gap-3 will-change-transform" style="transform: translateX(200px);">
+        <!-- Will be filled by JS with 10 images tripled -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ABOUT ====== -->
+  <section class="min-h-screen relative px-5 sm:px-8 md:px-10 py-20 flex flex-col items-center justify-center bg-[#0C0C0C]" id="about">
+    <!-- Decorative images -->
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" alt="moon" class="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.1s;" />
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="3d object" class="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-[100px] sm:w-[140px] md:w-[180px] animate-fade-in" style="animation-delay: 0.25s;" />
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" alt="lego" class="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.15s;" />
+    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="3d group" class="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[130px] sm:w-[170px] md:w-[220px] animate-fade-in" style="animation-delay: 0.3s;" />
+
+    <div class="relative z-10 flex flex-col items-center text-center max-w-3xl">
+      <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)] text-center">
+        About me
+      </h2>
+      <div class="mt-10 sm:mt-14 md:mt-16 w-full">
+        <p id="about-text" class="text-[#D7E2EA] font-medium text-center leading-relaxed text-[clamp(1rem,2vw,1.35rem)] max-w-[560px] mx-auto">
+          With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!
+        </p>
+      </div>
+      <div class="mt-16 sm:mt-20 md:mt-24">
+        <button class="contact-btn">Contact Me</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== SERVICES ====== -->
+  <section class="bg-white rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32" id="services">
+    <h2 class="text-[#0C0C0C] font-black uppercase text-center text-[clamp(3rem,12vw,160px)] mb-16 sm:mb-20 md:mb-28">
+      Services
+    </h2>
+    <div class="max-w-5xl mx-auto flex flex-col">
+      <!-- item 01 -->
+      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-t border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
+        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">01</div>
+        <div class="flex-1">
+          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">3D Modeling</h3>
+          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.</p>
+        </div>
+      </div>
+      <!-- item 02 -->
+      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
+        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">02</div>
+        <div class="flex-1">
+          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Rendering</h3>
+          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.</p>
+        </div>
+      </div>
+      <!-- item 03 -->
+      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
+        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">03</div>
+        <div class="flex-1">
+          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Motion Design</h3>
+          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.</p>
+        </div>
+      </div>
+      <!-- item 04 -->
+      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
+        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">04</div>
+        <div class="flex-1">
+          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Branding</h3>
+          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.</p>
+        </div>
+      </div>
+      <!-- item 05 -->
+      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
+        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">05</div>
+        <div class="flex-1">
+          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Web Design</h3>
+          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PROJECTS ====== -->
+  <section class="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32" id="projects">
+    <h2 class="hero-heading font-black uppercase text-center leading-none tracking-tight text-[clamp(3rem,12vw,160px)] mb-16">
+      Project
+    </h2>
+    <div class="max-w-6xl mx-auto space-y-8" id="project-stack">
+      <!-- Will be injected by JS -->
+    </div>
+  </section>
+
   <script>
-    // Handle video errors - show fallback gradient
-    const video = document.getElementById('bgVideo');
-    const videoContainer = document.getElementById('videoContainer');
+    // ====== MARQUEE ======
+    const gifs1 = [
+      'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
+      'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
+      'https://motionsites.ai/assets/hero-vex-ventures-preview-BczMFIiw.gif',
+      'https://motionsites.ai/assets/hero-stellar-ai-v2-preview-DjvxjG3C.gif',
+      'https://motionsites.ai/assets/hero-asme-preview-B_nGDnTP.gif',
+      'https://motionsites.ai/assets/hero-transform-data-preview-Cx5OU29N.gif',
+      'https://motionsites.ai/assets/hero-vitara-preview-Cjz2QYyU.gif',
+      'https://motionsites.ai/assets/hero-terra-preview-BFjrCr7T.gif',
+      'https://motionsites.ai/assets/hero-skyelite-preview-DHaZIgUv.gif',
+      'https://motionsites.ai/assets/hero-aethera-preview-DknSlcTa.gif',
+      'https://motionsites.ai/assets/hero-designpro-preview-D8c5_een.gif',
+    ];
+    const gifs2 = [
+      'https://motionsites.ai/assets/hero-stellar-ai-preview-D3HL6bw1.gif',
+      'https://motionsites.ai/assets/hero-xportfolio-preview-D4A8maiC.gif',
+      'https://motionsites.ai/assets/hero-orbit-web3-preview-BXt4OttD.gif',
+      'https://motionsites.ai/assets/hero-nexora-preview-cx5HmUgo.gif',
+      'https://motionsites.ai/assets/hero-evr-ventures-preview-DZxeVFEX.gif',
+      'https://motionsites.ai/assets/hero-planet-orbit-preview-DWAP8Z1P.gif',
+      'https://motionsites.ai/assets/hero-new-era-preview-CocuDUm9.gif',
+      'https://motionsites.ai/assets/hero-wealth-preview-B70idl_u.gif',
+      'https://motionsites.ai/assets/hero-luminex-preview-CxOP7ce6.gif',
+      'https://motionsites.ai/assets/hero-celestia-preview-0yO3jXO8.gif',
+    ];
 
-    if (video) {
-      video.addEventListener('error', function() {
-        videoContainer.classList.add('error');
-        videoContainer.classList.add('video-fallback');
+    function buildMarquee(rowId, images) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      // triple the images for seamless loop
+      const all = [...images, ...images, ...images];
+      all.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.className = 'marquee-image object-cover rounded-2xl flex-shrink-0';
+        img.loading = 'lazy';
+        row.appendChild(img);
       });
-      // Also if video takes too long to load (stalled), fallback after 3s
-      video.addEventListener('stalled', function() {
-        setTimeout(function() {
-          if (!video.currentTime) {
-            videoContainer.classList.add('error');
-            videoContainer.classList.add('video-fallback');
-          }
-        }, 3000);
+    }
+    buildMarquee('marquee-row1', gifs1);
+    buildMarquee('marquee-row2', gifs2);
+
+    // Marquee scroll effect
+    const marqueeSection = document.getElementById('marquee-section');
+    const row1 = document.getElementById('marquee-row1');
+    const row2 = document.getElementById('marquee-row2');
+    let marqueeOffset = 200; // initial offset
+
+    window.addEventListener('scroll', () => {
+      if (!marqueeSection) return;
+      const rect = marqueeSection.getBoundingClientRect();
+      const scrollY = window.scrollY;
+      const sectionTop = rect.top + scrollY;
+      const offset = (scrollY - sectionTop + window.innerHeight) * 0.3;
+      const clamped = Math.min(200, Math.max(-200, offset));
+      row1.style.transform = `translateX(${clamped - 200}px)`;
+      row2.style.transform = `translateX(${-(clamped - 200)}px)`;
+    }, { passive: true });
+
+    // ====== MAGNET EFFECT ======
+    const magnetContainer = document.getElementById('magnet-container');
+    const portraitWrapper = document.getElementById('portrait-wrapper');
+
+    if (magnetContainer && portraitWrapper) {
+      let isActive = false;
+      let posX = 0, posY = 0;
+      const strength = 3;
+      const padding = 150;
+
+      portraitWrapper.addEventListener('mousemove', (e) => {
+        const rect = portraitWrapper.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < padding) {
+          isActive = true;
+          const factor = strength / 10;
+          posX = dx * factor;
+          posY = dy * factor;
+          magnetContainer.style.transition = 'transform 0.3s ease-out';
+          magnetContainer.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
+        } else {
+          isActive = false;
+          magnetContainer.style.transition = 'transform 0.6s ease-in-out';
+          magnetContainer.style.transform = 'translate3d(0, 0, 0)';
+        }
+      });
+
+      portraitWrapper.addEventListener('mouseleave', () => {
+        isActive = false;
+        magnetContainer.style.transition = 'transform 0.6s ease-in-out';
+        magnetContainer.style.transform = 'translate3d(0, 0, 0)';
       });
     }
 
-    // Initialize Lucide icons
-    lucide.createIcons();
-
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    const closeMenu = document.getElementById('closeMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const menuItems = document.querySelectorAll('.menu-item');
-
-    function openMenu() {
-      mobileMenu.classList.remove('closed');
-      mobileMenu.classList.add('open');
-      // Staggered entrance
-      menuItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.classList.remove('closed');
-          item.classList.add('open');
-        }, index * 80 + 100);
+    // ====== ABOUT TEXT CHARACTER ANIMATION ======
+    // We'll use a simpler scroll-based opacity for each character
+    const aboutText = document.getElementById('about-text');
+    if (aboutText) {
+      const text = aboutText.textContent;
+      aboutText.innerHTML = '';
+      const chars = text.split('');
+      chars.forEach((ch, i) => {
+        const span = document.createElement('span');
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+        span.style.opacity = '0.2';
+        span.style.transition = 'opacity 0.3s';
+        aboutText.appendChild(span);
       });
+
+      const updateAbout = () => {
+        const rect = aboutText.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight + rect.height)));
+        const spans = aboutText.querySelectorAll('span');
+        const total = spans.length;
+        spans.forEach((span, i) => {
+          const charProgress = Math.min(1, Math.max(0, (i / total) * 0.8 + progress * 0.2));
+          span.style.opacity = 0.2 + charProgress * 0.8;
+        });
+      };
+      window.addEventListener('scroll', updateAbout, { passive: true });
+      updateAbout();
     }
 
-    function closeMenuFunc() {
-      mobileMenu.classList.remove('open');
-      mobileMenu.classList.add('closed');
-      menuItems.forEach((item) => {
-        item.classList.remove('open');
-        item.classList.add('closed');
+    // ====== FADE-IN ON SCROLL FOR SERVICES ======
+    const fadeSections = document.querySelectorAll('.fade-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
       });
-    }
+    }, { threshold: 0.15 });
+    fadeSections.forEach(el => observer.observe(el));
 
-    menuToggle.addEventListener('click', openMenu);
-    closeMenu.addEventListener('click', closeMenuFunc);
-    // Close on link click
-    menuItems.forEach((item) => {
-      item.addEventListener('click', closeMenuFunc);
-    });
-    // Close on overlay click (click outside links)
-    mobileMenu.addEventListener('click', function(e) {
-      if (e.target === mobileMenu) {
-        closeMenuFunc();
+    // ====== PROJECTS (sticky cards with scale) ======
+    const projectData = [
+      {
+        id: '01',
+        name: 'Nextlevel Studio',
+        client: 'Client',
+        images: {
+          col1: [
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055344_5eff02e0-87a5-41ce-b64f-eb08da8f33db.png&w=1280&q=85',
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055431_11d841fd-8b41-46a5-82e4-b04f2407a7d8.png&w=1280&q=85'
+          ],
+          col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055451_e317bf2d-28d4-48cc-86b0-6f72f25b6327.png&w=1280&q=85'
+        }
+      },
+      {
+        id: '02',
+        name: 'Aura Brand Identity',
+        client: 'Personal',
+        images: {
+          col1: [
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055654_911201c5-36d9-4bc6-bac7-331adfce159f.png&w=1280&q=85',
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055723_5ceda0b8-d9c2-4665-b2e3-83ba19ba76d1.png&w=1280&q=85'
+          ],
+          col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055753_adc5dcbd-a8e6-49c0-b43a-9b030d835cea.png&w=1280&q=85'
+        }
+      },
+      {
+        id: '03',
+        name: 'Solaris Digital',
+        client: 'Client',
+        images: {
+          col1: [
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055759_963cfb0b-4bd1-4b0f-9d0a-09bd6cf95b2f.png&w=1280&q=85',
+            'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_060108_438f781a-9846-4dcc-89ab-c4e6cb830f5b.png&w=1280&q=85'
+          ],
+          col2: 'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260412_055818_9d062121-ad7e-46b9-999a-1a6a692ef1ee.png&w=1280&q=85'
+        }
       }
+    ];
+
+    const projectStack = document.getElementById('project-stack');
+    if (projectStack) {
+      projectData.forEach((project, idx) => {
+        const total = projectData.length;
+        const scale = 1 - (total - 1 - idx) * 0.03;
+        const topOffset = idx * 28;
+
+        const card = document.createElement('div');
+        card.className = 'sticky-card';
+        card.style.top = `calc(24px + ${topOffset}px)`;
+
+        const inner = document.createElement('div');
+        inner.className = 'rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8';
+        inner.style.transform = `scale(${scale})`;
+        inner.style.transformOrigin = 'top center';
+
+        // top row
+        const topRow = document.createElement('div');
+        topRow.className = 'flex flex-wrap items-start justify-between gap-4 mb-6';
+
+        const num = document.createElement('div');
+        num.className = 'text-[clamp(3rem,10vw,140px)] font-black text-[#D7E2EA] leading-none';
+        num.textContent = project.id;
+
+        const rightGroup = document.createElement('div');
+        rightGroup.className = 'flex flex-wrap items-center gap-4';
+
+        const clientSpan = document.createElement('span');
+        clientSpan.className = 'text-[#D7E2EA] font-medium uppercase tracking-wider text-sm sm:text-base';
+        clientSpan.textContent = project.client;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'text-[#D7E2EA] font-bold uppercase text-lg sm:text-xl';
+        nameSpan.textContent = project.name;
+
+        const liveBtn = document.createElement('button');
+        liveBtn.className = 'live-btn';
+        liveBtn.textContent = 'Live Project';
+
+        rightGroup.appendChild(clientSpan);
+        rightGroup.appendChild(nameSpan);
+        rightGroup.appendChild(liveBtn);
+        topRow.appendChild(num);
+        topRow.appendChild(rightGroup);
+        inner.appendChild(topRow);
+
+        // image grid
+        const grid = document.createElement('div');
+        grid.className = 'flex gap-4';
+
+        const col1 = document.createElement('div');
+        col1.className = 'w-[40%] flex flex-col gap-4';
+        project.images.col1.forEach((url, i) => {
+          const img = document.createElement('img');
+          img.src = url;
+          img.alt = '';
+          img.className = 'w-full object-cover project-img';
+          img.style.height = i === 0 ? 'clamp(130px, 16vw, 230px)' : 'clamp(160px, 22vw, 340px)';
+          col1.appendChild(img);
+        });
+
+        const col2 = document.createElement('div');
+        col2.className = 'w-[60%]';
+        const img2 = document.createElement('img');
+        img2.src = project.images.col2;
+        img2.alt = '';
+        img2.className = 'w-full h-full object-cover project-img';
+        img2.style.minHeight = 'clamp(130px, 16vw, 230px)';
+        col2.appendChild(img2);
+
+        grid.appendChild(col1);
+        grid.appendChild(col2);
+        inner.appendChild(grid);
+
+        card.appendChild(inner);
+        projectStack.appendChild(card);
+      });
+    }
+
+    // ====== SMOOTH NAV SCROLL (optional) ======
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = link.textContent.toLowerCase();
+        const section = document.getElementById(target === 'price' ? 'services' : target === 'about' ? 'about' : target === 'projects' ? 'projects' : '');
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
     });
 
-    // Ensure icons re-render after DOM changes (if needed)
-    // Already called initially
+    console.log('✅ Page loaded successfully');
   </script>
 </body>
 </html>
