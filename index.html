@@ -3,19 +3,168 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Jack — 3D Creator</title>
+  <title>VANGUARD + Jack</title>
 
-  <!-- Google Font: Kanit -->
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/8b75d9dcff6a48c35a46656192adf019?family=FSP+DEMO+-+PODIUM+Sharp+4.11" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS via Play CDN -->
+  <!-- Tailwind & Lucide -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background: #0C0C0C; color: #D7E2EA; font-family: 'Kanit', sans-serif; scroll-behavior: smooth; overflow-x: clip; }
+    html, body { background: #0C0C0C; font-family: 'Inter', sans-serif; scroll-behavior: smooth; overflow-x: clip; }
+
+    /* ===== VANGUARD STYLES ===== */
+    .font-podium { font-family: 'FSP DEMO - PODIUM Sharp 4.11', serif; }
+    .font-inter { font-family: 'Inter', sans-serif; }
+    .vanguard-animate-fade-up {
+      animation: v-fade-up 0.8s ease-out forwards;
+    }
+    .vanguard-animate-fade-up-delay-1 {
+      animation: v-fade-up 0.8s ease-out 0.2s forwards;
+      opacity: 0;
+    }
+    .vanguard-animate-fade-up-delay-2 {
+      animation: v-fade-up 0.8s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+    .vanguard-animate-fade-up-delay-3 {
+      animation: v-fade-up 0.8s ease-out 0.6s forwards;
+      opacity: 0;
+    }
+    .vanguard-animate-fade-up-delay-4 {
+      animation: v-fade-up 0.8s ease-out 0.8s forwards;
+      opacity: 0;
+    }
+    @keyframes v-fade-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .video-fallback {
+      background: radial-gradient(circle at 30% 40%, #1a1a2e 0%, #0a0a0f 100%);
+    }
+
+    /* VIDEO BANNER */
+    .vanguard-video-section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+    .vanguard-video-section video {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    .v-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .v-navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 1.5rem 0.75rem;
+    }
+    @media (min-width: 640px) {
+      .v-navbar { padding: 0.5rem 2.5rem 0.75rem; }
+    }
+    @media (min-width: 1024px) {
+      .v-navbar { padding: 0.75rem 4rem 1rem; }
+    }
+    .v-navbar .brand {
+      font-family: 'FSP DEMO - PODIUM Sharp 4.11', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: white;
+    }
+    @media (min-width: 640px) {
+      .v-navbar .brand { font-size: 1.875rem; }
+    }
+    .desktop-nav { display: none; }
+    .desktop-cta { display: none; }
+    .mobile-hamburger { display: flex; flex-direction: column; align-items: flex-end; gap: 0.375rem; padding: 0.25rem; cursor: pointer; }
+    .mobile-hamburger span { display: block; background: white; height: 2px; transition: all 0.3s; }
+    .mobile-hamburger span:nth-child(3) { width: 1rem; }
+    @media (min-width: 769px) {
+      .desktop-nav { display: flex; align-items: center; gap: 2rem; }
+      .desktop-nav a {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
+        color: rgba(255,255,255,0.8);
+        text-decoration: none;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        transition: color 0.2s;
+      }
+      .desktop-nav a:hover { color: white; }
+      .desktop-cta { display: block; }
+      .desktop-cta a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        border: 1px solid rgba(255,255,255,0.3);
+        padding: 0.5rem 1.25rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-family: 'Inter', sans-serif;
+        color: white;
+        transition: all 0.3s;
+        text-decoration: none;
+        border-radius: 0;
+      }
+      .desktop-cta a:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); }
+      .mobile-hamburger { display: none; }
+      .v-mobile-menu { display: none; }
+    }
+    .v-mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(8px);
+      transition: opacity 0.5s, visibility 0.5s;
+      display: flex;
+      flex-direction: column;
+    }
+    .v-mobile-menu.closed { opacity: 0; visibility: hidden; }
+    .v-mobile-menu.open { opacity: 1; visibility: visible; }
+    .v-menu-item {
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .v-menu-item.closed { opacity: 0; transform: translateY(20px); }
+    .v-menu-item.open { opacity: 1; transform: translateY(0); }
+
+    /* VANGUARD CONTENT SECTION — minimal padding */
+    .vanguard-content-section {
+      background: #0C0C0C;
+      padding: 0;
+    }
+    .vanguard-content-section .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 30px 20px 20px;
+    }
+
+    /* ===== JACK STYLES — all gaps removed ===== */
     .hero-heading {
       background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%);
       -webkit-background-clip: text;
@@ -34,9 +183,9 @@
       transition: all 0.3s ease;
       border: none;
       cursor: pointer;
-      padding: 12px 30px;
+      padding: 10px 24px;
       border-radius: 9999px;
-      font-size: clamp(0.8rem, 1.2vw, 1rem);
+      font-size: clamp(0.7rem, 1vw, 0.9rem);
     }
     .contact-btn:hover { transform: scale(1.04); opacity: 0.9; }
     .live-btn {
@@ -49,8 +198,8 @@
       font-weight: 500;
       transition: all 0.3s ease;
       cursor: pointer;
-      padding: 8px 20px;
-      font-size: clamp(0.7rem, 1vw, 0.9rem);
+      padding: 6px 16px;
+      font-size: clamp(0.6rem, 0.8vw, 0.8rem);
     }
     .live-btn:hover { background: rgba(215,226,234,0.1); }
     .marquee-image {
@@ -76,168 +225,293 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    .animate-fade-in {
-      animation: fadeIn 0.9s ease-out forwards;
-    }
+    .animate-fade-in { animation: fadeIn 0.9s ease-out forwards; }
     .fade-section {
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
-    .fade-section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    /* ====== SIMPLE MARQUEE ====== */
-    .marquee-wrapper {
-      overflow: hidden;
-      width: 100%;
-    }
+    .fade-section.visible { opacity: 1; transform: translateY(0); }
     .marquee-row {
       display: flex;
       gap: 12px;
       width: max-content;
       animation: marquee-left 20s linear infinite;
     }
-    .marquee-row:nth-child(2) {
-      animation-duration: 25s; /* different speed for variety */
-    }
+    .marquee-row:nth-child(2) { animation-duration: 25s; }
     @keyframes marquee-left {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-    /* ensure it works on mobile */
-    @media (max-width: 640px) {
-      .marquee-image {
-        width: 280px;
-        height: 180px;
-      }
+    @media (max-width: 640px) { .marquee-image { width: 280px; height: 180px; } }
+    .marquee-wrapper { overflow: hidden; width: 100%; }
+
+    /* No gap between sections */
+    .no-gap { margin: 0; padding: 0; }
+    .jack-hero { padding: 20px 0; }
+    .marquee-wrap { padding: 20px 0 0; }
+    .about-wrap { padding: 20px 0; }
+    .services-wrap { padding: 20px 0; }
+    .projects-wrap { padding: 20px 0; margin-top: 0; }
+    .contact-wrap { padding: 20px 0; }
+
+    .stat-number {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: white;
+      letter-spacing: -0.02em;
     }
   </style>
 </head>
 <body>
 
-  <!-- ====== HERO ====== -->
-  <section class="h-screen flex flex-col relative overflow-x-clip bg-[#0C0C0C]">
-    <nav class="flex justify-between px-6 md:px-10 pt-6 md:pt-8 text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">
-      <a href="#" class="hover:opacity-70 transition-opacity duration-200">About</a>
-      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Price</a>
-      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Projects</a>
-      <a href="#" class="hover:opacity-70 transition-opacity duration-200">Contact</a>
+  <!-- ===== VANGUARD VIDEO BANNER ===== -->
+  <div class="vanguard-video-section">
+    <video id="v-bgVideo" autoplay muted loop playsInline
+           src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260606_154941_df1a96e1-a06f-450c-bd02-d863414cc1a0.mp4">
+    </video>
+    <div class="v-overlay"></div>
+
+    <nav class="v-navbar">
+      <div class="brand">VANGUARD</div>
+      <div class="desktop-nav">
+        <a href="#about">About</a>
+        <a href="#services">Price</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="desktop-cta">
+        <a href="#"><i data-lucide="arrow-up-right" class="w-4 h-4 inline"></i> GET IN TOUCH</a>
+      </div>
+      <div class="mobile-hamburger" id="v-menuToggle">
+        <span></span><span></span><span></span>
+      </div>
     </nav>
 
-    <div class="flex-1 flex flex-col justify-between pb-7 sm:pb-8 md:pb-10">
-      <div class="overflow-hidden w-full mt-6 sm:mt-4 md:-mt-5">
+    <div id="v-mobileMenu" class="v-mobile-menu closed">
+      <div class="flex items-center justify-between px-6 py-5">
+        <div class="font-podium text-2xl font-bold uppercase tracking-wider text-white">VANGUARD</div>
+        <button id="v-closeMenu" class="p-2" aria-label="Close menu">
+          <i data-lucide="x" class="w-6 h-6 text-white"></i>
+        </button>
+      </div>
+      <div class="flex-1 flex flex-col items-center justify-center gap-8">
+        <a href="#about" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="0">About</a>
+        <a href="#services" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="1">Price</a>
+        <a href="#projects" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="2">Projects</a>
+        <a href="#contact" class="v-menu-item closed font-podium text-4xl sm:text-5xl text-white uppercase hover:opacity-70" data-index="3">Contact</a>
+        <a href="#" class="v-menu-item closed border border-white/30 hover:border-white/60 px-8 py-4 text-xs tracking-widest uppercase font-inter hover:bg-white/10 transition-all" data-index="4">GET IN TOUCH</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VANGUARD CONTENT ===== -->
+  <section class="vanguard-content-section">
+    <div class="inner">
+      <div class="flex items-center gap-3 mb-4 lg:mb-5 vanguard-animate-fade-up opacity-0">
+        <i data-lucide="crown" class="w-4 h-4 text-white/70"></i>
+        <span class="text-white/70 text-xs sm:text-sm font-inter tracking-[0.3em] uppercase">World-Class Digital Collective</span>
+      </div>
+      <h1 class="font-podium text-white uppercase leading-[0.92] tracking-tight">
+        <div class="text-[clamp(2.8rem,8vw,7rem)] vanguard-animate-fade-up-delay-1">Design.</div>
+        <div class="text-[clamp(2.8rem,8vw,7rem)] vanguard-animate-fade-up-delay-1">Disrupt.</div>
+        <div class="text-[clamp(2.8rem,8vw,7rem)] vanguard-animate-fade-up-delay-1">Conquer.</div>
+      </h1>
+      <p class="text-white/70 text-sm sm:text-base font-inter leading-relaxed max-w-md mt-3 lg:mt-4 vanguard-animate-fade-up-delay-2 opacity-0">
+        We build fierce brand identities<br />
+        that don't just turn heads — <span class="text-white font-bold">they lead.</span>
+      </p>
+      <div class="flex flex-wrap items-center gap-4 sm:gap-6 mt-4 lg:mt-5 vanguard-animate-fade-up-delay-3 opacity-0">
+        <a href="#" class="group inline-flex items-center gap-2 bg-black hover:bg-neutral-900 px-5 sm:px-7 py-2.5 sm:py-3 text-[11px] sm:text-xs tracking-widest uppercase font-inter transition-all">
+          SEE OUR WORK
+          <i data-lucide="arrow-up-right" class="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"></i>
+        </a>
+        <div class="hidden sm:flex items-center gap-3">
+          <i data-lucide="award" class="w-7 h-7 text-white/50"></i>
+          <div>
+            <div class="text-white/60 text-xs tracking-wider uppercase">Top-Rated</div>
+            <div class="text-white/60 text-xs tracking-wider uppercase">Brand Studio</div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-6 sm:gap-10 lg:gap-14 mt-4 sm:mt-5 lg:mt-6 vanguard-animate-fade-up-delay-4 opacity-0">
+        <div>
+          <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">250+</div>
+          <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-0.5">Brands Transformed</div>
+        </div>
+        <div>
+          <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">95%</div>
+          <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-0.5">Client Retention</div>
+        </div>
+        <div>
+          <div class="stat-number text-2xl sm:text-3xl lg:text-4xl">10+</div>
+          <div class="text-white/50 text-[9px] sm:text-xs tracking-widest uppercase mt-0.5">Years in the Game</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== JACK HERO ===== -->
+  <section class="jack-hero bg-[#0C0C0C] px-6 sm:px-10 lg:px-16">
+    <div class="flex flex-col justify-center">
+      <div class="overflow-hidden w-full">
         <h1 class="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw]">
           Hi, i'm jack
         </h1>
       </div>
-      <div class="flex justify-between items-end px-6 md:px-10">
-        <p class="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
+      <div class="flex flex-wrap justify-between items-end mt-3 sm:mt-4">
+        <p class="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.7rem,1.2vw,1.3rem)]">
           a 3d creator driven by crafting striking and unforgettable projects
         </p>
-        <button class="contact-btn">Contact Me</button>
-      </div>
-    </div>
-
-    <div class="absolute left-1/2 -translate-x-1/2 z-10 top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]" id="portrait-wrapper">
-      <div id="magnet-container" style="will-change: transform; transition: transform 0.3s ease-out;">
-        <img
-          src="https://shrug-person-78902957.figma.site/_components/v2/d24c01ad3a56fc65e942a1f501eb73db42d7cf9a/Rectangle_40443.81459862.png"
-          alt="Jack Portrait"
-          class="w-full object-cover"
-          draggable="false"
-        />
+        <button class="contact-btn mt-3 sm:mt-0">Contact Me</button>
       </div>
     </div>
   </section>
 
-  <!-- ====== MARQUEE (Simple Auto-Left) ====== -->
-  <section class="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 marquee-wrapper" id="marquee-section">
-    <div class="flex flex-col gap-3">
-      <!-- Row 1 -->
-      <div id="marquee-row1" class="marquee-row"></div>
-      <!-- Row 2 -->
-      <div id="marquee-row2" class="marquee-row"></div>
+  <!-- ===== MARQUEE ===== -->
+  <section class="marquee-wrap bg-[#0C0C0C] px-0">
+    <div class="marquee-wrapper">
+      <div class="flex flex-col gap-3">
+        <div id="marquee-row1" class="marquee-row"></div>
+        <div id="marquee-row2" class="marquee-row"></div>
+      </div>
     </div>
   </section>
 
-  <!-- ====== ABOUT ====== -->
-  <section class="min-h-screen relative px-5 sm:px-8 md:px-10 py-20 flex flex-col items-center justify-center bg-[#0C0C0C]" id="about">
-    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" alt="moon" class="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.1s;" />
-    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="3d object" class="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-[100px] sm:w-[140px] md:w-[180px] animate-fade-in" style="animation-delay: 0.25s;" />
-    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" alt="lego" class="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.15s;" />
-    <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="3d group" class="absolute bottom-[8%] right-[3%] sm:right-[6%] md:right-[10%] w-[130px] sm:w-[170px] md:w-[220px] animate-fade-in" style="animation-delay: 0.3s;" />
+  <!-- ===== ABOUT (only bottom decorative images) ===== -->
+  <section class="about-wrap relative px-5 sm:px-8 md:px-10 bg-[#0C0C0C]" id="about">
+    <div class="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto py-4">
+      <!-- Bottom-left 3D object -->
+      <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="3d object" class="absolute bottom-[5%] left-[2%] sm:left-[4%] md:left-[8%] w-[80px] sm:w-[110px] md:w-[140px] animate-fade-in" style="animation-delay: 0.25s; z-index: 0;" />
+      <!-- Bottom-right 3D group -->
+      <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/Group_134-1.2e04f3ce.png" alt="3d group" class="absolute bottom-[5%] right-[2%] sm:right-[4%] md:right-[8%] w-[100px] sm:w-[130px] md:w-[170px] animate-fade-in" style="animation-delay: 0.3s; z-index: 0;" />
 
-    <div class="relative z-10 flex flex-col items-center text-center max-w-3xl">
-      <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-[clamp(3rem,12vw,160px)] text-center">
-        About me
+      <div class="relative z-10 flex flex-col items-center text-center">
+        <h2 class="hero-heading font-black uppercase leading-none tracking-tight text-[clamp(2.5rem,10vw,140px)] text-center">
+          About me
+        </h2>
+        <div class="mt-4 sm:mt-6 md:mt-8 w-full">
+          <p id="about-text" class="text-[#D7E2EA] font-medium text-center leading-relaxed text-[clamp(0.9rem,1.6vw,1.2rem)] max-w-[540px] mx-auto">
+            With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!
+          </p>
+        </div>
+        <div class="mt-6 sm:mt-8 md:mt-10">
+          <button class="contact-btn">Contact Me</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SERVICES ===== -->
+  <section class="services-wrap bg-white rounded-t-[30px] sm:rounded-t-[40px] md:rounded-t-[50px] px-5 sm:px-8 md:px-10" id="services">
+    <div class="max-w-5xl mx-auto py-4">
+      <h2 class="text-[#0C0C0C] font-black uppercase text-center text-[clamp(2.5rem,10vw,140px)] mb-3 sm:mb-4 md:mb-5">
+        Services
       </h2>
-      <div class="mt-10 sm:mt-14 md:mt-16 w-full">
-        <p id="about-text" class="text-[#D7E2EA] font-medium text-center leading-relaxed text-[clamp(1rem,2vw,1.35rem)] max-w-[560px] mx-auto">
-          With more than five years of experience in design, i focus on branding, web design, and user experience, i truly enjoy working with businesses that aim to stand out and present their best image. Let's build something incredible together!
-        </p>
-      </div>
-      <div class="mt-16 sm:mt-20 md:mt-24">
-        <button class="contact-btn">Contact Me</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====== SERVICES ====== -->
-  <section class="bg-white rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32" id="services">
-    <h2 class="text-[#0C0C0C] font-black uppercase text-center text-[clamp(3rem,12vw,160px)] mb-16 sm:mb-20 md:mb-28">
-      Services
-    </h2>
-    <div class="max-w-5xl mx-auto flex flex-col">
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-t border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
-        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">01</div>
-        <div class="flex-1">
-          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">3D Modeling</h3>
-          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.</p>
+      <div class="flex flex-col">
+        <!-- Service items with minimal padding -->
+        <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-6 border-t border-b border-[rgba(12,12,12,0.1)] py-3 sm:py-4 md:py-5 fade-section">
+          <div class="text-[clamp(2.5rem,8vw,100px)] font-black text-[#0C0C0C] leading-none sm:min-w-[80px]">01</div>
+          <div class="flex-1">
+            <h3 class="font-medium uppercase text-[clamp(0.9rem,1.8vw,1.6rem)] text-[#0C0C0C]">3D Modeling</h3>
+            <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.75rem,1.3vw,1rem)] text-[#0C0C0C] opacity-60">Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.</p>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
-        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">02</div>
-        <div class="flex-1">
-          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Rendering</h3>
-          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.</p>
+        <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-6 border-b border-[rgba(12,12,12,0.1)] py-3 sm:py-4 md:py-5 fade-section">
+          <div class="text-[clamp(2.5rem,8vw,100px)] font-black text-[#0C0C0C] leading-none sm:min-w-[80px]">02</div>
+          <div class="flex-1">
+            <h3 class="font-medium uppercase text-[clamp(0.9rem,1.8vw,1.6rem)] text-[#0C0C0C]">Rendering</h3>
+            <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.75rem,1.3vw,1rem)] text-[#0C0C0C] opacity-60">High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.</p>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
-        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">03</div>
-        <div class="flex-1">
-          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Motion Design</h3>
-          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.</p>
+        <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-6 border-b border-[rgba(12,12,12,0.1)] py-3 sm:py-4 md:py-5 fade-section">
+          <div class="text-[clamp(2.5rem,8vw,100px)] font-black text-[#0C0C0C] leading-none sm:min-w-[80px]">03</div>
+          <div class="flex-1">
+            <h3 class="font-medium uppercase text-[clamp(0.9rem,1.8vw,1.6rem)] text-[#0C0C0C]">Motion Design</h3>
+            <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.75rem,1.3vw,1rem)] text-[#0C0C0C] opacity-60">Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.</p>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
-        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">04</div>
-        <div class="flex-1">
-          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Branding</h3>
-          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.</p>
+        <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-6 border-b border-[rgba(12,12,12,0.1)] py-3 sm:py-4 md:py-5 fade-section">
+          <div class="text-[clamp(2.5rem,8vw,100px)] font-black text-[#0C0C0C] leading-none sm:min-w-[80px]">04</div>
+          <div class="flex-1">
+            <h3 class="font-medium uppercase text-[clamp(0.9rem,1.8vw,1.6rem)] text-[#0C0C0C]">Branding</h3>
+            <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.75rem,1.3vw,1rem)] text-[#0C0C0C] opacity-60">Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.</p>
+          </div>
         </div>
-      </div>
-      <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
-        <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">05</div>
-        <div class="flex-1">
-          <h3 class="font-medium uppercase text-[clamp(1rem,2.2vw,2.1rem)] text-[#0C0C0C]">Web Design</h3>
-          <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.</p>
+        <div class="flex flex-col sm:flex-row items-start gap-3 sm:gap-6 border-b border-[rgba(12,12,12,0.1)] py-3 sm:py-4 md:py-5 fade-section">
+          <div class="text-[clamp(2.5rem,8vw,100px)] font-black text-[#0C0C0C] leading-none sm:min-w-[80px]">05</div>
+          <div class="flex-1">
+            <h3 class="font-medium uppercase text-[clamp(0.9rem,1.8vw,1.6rem)] text-[#0C0C0C]">Web Design</h3>
+            <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.75rem,1.3vw,1rem)] text-[#0C0C0C] opacity-60">Designing clean, modern, and conversion-focused websites with attention to layout, typography, and user experience.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== PROJECTS ====== -->
-  <section class="bg-[#0C0C0C] rounded-t-[40px] sm:rounded-t-[50px] md:rounded-t-[60px] -mt-10 sm:-mt-12 md:-mt-14 z-10 relative px-5 sm:px-8 md:px-10 py-20 sm:py-24 md:py-32" id="projects">
-    <h2 class="hero-heading font-black uppercase text-center leading-none tracking-tight text-[clamp(3rem,12vw,160px)] mb-16">
-      Project
-    </h2>
-    <div class="max-w-6xl mx-auto space-y-8" id="project-stack"></div>
+  <!-- ===== PROJECTS ===== -->
+  <section class="projects-wrap bg-[#0C0C0C] rounded-t-[30px] sm:rounded-t-[40px] md:rounded-t-[50px] -mt-[2px] z-10 relative px-5 sm:px-8 md:px-10" id="projects">
+    <div class="max-w-6xl mx-auto py-4">
+      <h2 class="hero-heading font-black uppercase text-center leading-none tracking-tight text-[clamp(2.5rem,10vw,140px)] mb-3">
+        Project
+      </h2>
+      <div class="max-w-6xl mx-auto space-y-4" id="project-stack"></div>
+    </div>
   </section>
 
+  <!-- ===== CONTACT ===== -->
+  <section id="contact" class="contact-wrap bg-[#0C0C0C] text-center">
+    <h2 class="text-white text-2xl sm:text-3xl font-light">Get in touch</h2>
+    <p class="text-white/60 mt-1 text-sm">Let's build something amazing together.</p>
+  </section>
+
+  <!-- ===== JAVASCRIPT ===== -->
   <script>
-    // ====== MARQUEE DATA ======
+    // Video fallback
+    const vVideo = document.getElementById('v-bgVideo');
+    if (vVideo) {
+      vVideo.addEventListener('error', function() {
+        document.querySelector('.vanguard-video-section').classList.add('video-fallback');
+      });
+    }
+    lucide.createIcons();
+
+    // Mobile menu
+    const vMenuToggle = document.getElementById('v-menuToggle');
+    const vCloseMenu = document.getElementById('v-closeMenu');
+    const vMobileMenu = document.getElementById('v-mobileMenu');
+    const vMenuItems = document.querySelectorAll('.v-menu-item');
+
+    function vOpenMenu() {
+      vMobileMenu.classList.remove('closed');
+      vMobileMenu.classList.add('open');
+      vMenuItems.forEach((item, index) => {
+        setTimeout(() => {
+          item.classList.remove('closed');
+          item.classList.add('open');
+        }, index * 80 + 100);
+      });
+    }
+    function vCloseMenuFunc() {
+      vMobileMenu.classList.remove('open');
+      vMobileMenu.classList.add('closed');
+      vMenuItems.forEach(item => {
+        item.classList.remove('open');
+        item.classList.add('closed');
+      });
+    }
+    if (vMenuToggle) vMenuToggle.addEventListener('click', vOpenMenu);
+    if (vCloseMenu) vCloseMenu.addEventListener('click', vCloseMenuFunc);
+    vMenuItems.forEach(item => {
+      item.addEventListener('click', vCloseMenuFunc);
+    });
+    if (vMobileMenu) {
+      vMobileMenu.addEventListener('click', function(e) {
+        if (e.target === vMobileMenu) vCloseMenuFunc();
+      });
+    }
+
+    // Marquee images
     const gifs1 = [
       'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
       'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
@@ -267,7 +541,6 @@
     function buildMarquee(rowId, images) {
       const row = document.getElementById(rowId);
       if (!row) return;
-      // Duplicate images twice to create seamless loop
       const all = [...images, ...images];
       all.forEach(src => {
         const img = document.createElement('img');
@@ -281,41 +554,7 @@
     buildMarquee('marquee-row1', gifs1);
     buildMarquee('marquee-row2', gifs2);
 
-    // ====== MAGNET EFFECT ======
-    const magnetContainer = document.getElementById('magnet-container');
-    const portraitWrapper = document.getElementById('portrait-wrapper');
-
-    if (magnetContainer && portraitWrapper) {
-      let posX = 0, posY = 0;
-      const strength = 3;
-      const padding = 150;
-
-      portraitWrapper.addEventListener('mousemove', (e) => {
-        const rect = portraitWrapper.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const dx = e.clientX - centerX;
-        const dy = e.clientY - centerY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < padding) {
-          const factor = strength / 10;
-          posX = dx * factor;
-          posY = dy * factor;
-          magnetContainer.style.transition = 'transform 0.3s ease-out';
-          magnetContainer.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
-        } else {
-          magnetContainer.style.transition = 'transform 0.6s ease-in-out';
-          magnetContainer.style.transform = 'translate3d(0, 0, 0)';
-        }
-      });
-
-      portraitWrapper.addEventListener('mouseleave', () => {
-        magnetContainer.style.transition = 'transform 0.6s ease-in-out';
-        magnetContainer.style.transform = 'translate3d(0, 0, 0)';
-      });
-    }
-
-    // ====== ABOUT TEXT CHARACTER ANIMATION ======
+    // About text character animation
     const aboutText = document.getElementById('about-text');
     if (aboutText) {
       const text = aboutText.textContent;
@@ -328,7 +567,6 @@
         span.style.transition = 'opacity 0.3s';
         aboutText.appendChild(span);
       });
-
       const updateAbout = () => {
         const rect = aboutText.getBoundingClientRect();
         const windowHeight = window.innerHeight;
@@ -344,18 +582,16 @@
       updateAbout();
     }
 
-    // ====== FADE-IN ON SCROLL FOR SERVICES ======
+    // Fade sections for Services
     const fadeSections = document.querySelectorAll('.fade-section');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
     fadeSections.forEach(el => observer.observe(el));
 
-    // ====== PROJECTS (sticky cards) ======
+    // Projects data
     const projectData = [
       {
         id: '01',
@@ -407,26 +643,26 @@
         card.style.top = `calc(24px + ${topOffset}px)`;
 
         const inner = document.createElement('div');
-        inner.className = 'rounded-[40px] sm:rounded-[50px] md:rounded-[60px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-6 md:p-8';
+        inner.className = 'rounded-[30px] sm:rounded-[40px] md:rounded-[50px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:p-5 md:p-6';
         inner.style.transform = `scale(${scale})`;
         inner.style.transformOrigin = 'top center';
 
         const topRow = document.createElement('div');
-        topRow.className = 'flex flex-wrap items-start justify-between gap-4 mb-6';
+        topRow.className = 'flex flex-wrap items-start justify-between gap-3 mb-4';
 
         const num = document.createElement('div');
-        num.className = 'text-[clamp(3rem,10vw,140px)] font-black text-[#D7E2EA] leading-none';
+        num.className = 'text-[clamp(2.5rem,8vw,100px)] font-black text-[#D7E2EA] leading-none';
         num.textContent = project.id;
 
         const rightGroup = document.createElement('div');
-        rightGroup.className = 'flex flex-wrap items-center gap-4';
+        rightGroup.className = 'flex flex-wrap items-center gap-3';
 
         const clientSpan = document.createElement('span');
-        clientSpan.className = 'text-[#D7E2EA] font-medium uppercase tracking-wider text-sm sm:text-base';
+        clientSpan.className = 'text-[#D7E2EA] font-medium uppercase tracking-wider text-xs sm:text-sm';
         clientSpan.textContent = project.client;
 
         const nameSpan = document.createElement('span');
-        nameSpan.className = 'text-[#D7E2EA] font-bold uppercase text-lg sm:text-xl';
+        nameSpan.className = 'text-[#D7E2EA] font-bold uppercase text-base sm:text-lg';
         nameSpan.textContent = project.name;
 
         const liveBtn = document.createElement('button');
@@ -441,16 +677,16 @@
         inner.appendChild(topRow);
 
         const grid = document.createElement('div');
-        grid.className = 'flex gap-4';
+        grid.className = 'flex gap-3';
 
         const col1 = document.createElement('div');
-        col1.className = 'w-[40%] flex flex-col gap-4';
+        col1.className = 'w-[40%] flex flex-col gap-3';
         project.images.col1.forEach((url, i) => {
           const img = document.createElement('img');
           img.src = url;
           img.alt = '';
           img.className = 'w-full object-cover project-img';
-          img.style.height = i === 0 ? 'clamp(130px, 16vw, 230px)' : 'clamp(160px, 22vw, 340px)';
+          img.style.height = i === 0 ? 'clamp(110px, 14vw, 200px)' : 'clamp(130px, 18vw, 280px)';
           col1.appendChild(img);
         });
 
@@ -460,7 +696,7 @@
         img2.src = project.images.col2;
         img2.alt = '';
         img2.className = 'w-full h-full object-cover project-img';
-        img2.style.minHeight = 'clamp(130px, 16vw, 230px)';
+        img2.style.minHeight = 'clamp(110px, 14vw, 200px)';
         col2.appendChild(img2);
 
         grid.appendChild(col1);
@@ -472,19 +708,7 @@
       });
     }
 
-    // ====== NAV SCROLL ======
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = link.textContent.toLowerCase();
-        const section = document.getElementById(target === 'price' ? 'services' : target === 'about' ? 'about' : target === 'projects' ? 'projects' : '');
-        if (section) {
-          section.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-
-    console.log('✅ Simple marquee with left movement, no scroll/drag interaction.');
+    console.log('✅ All sections stacked tight, no gaps.');
   </script>
 </body>
 </html>
