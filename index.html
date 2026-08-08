@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milky Way - REDMI NOTE 13 PRO PLUS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; overflow: hidden; font-family: 'Arial', sans-serif; }
+        .video-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .video-container video {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+        .overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background: rgba(0,0,0,0.3);
+        }
+        .text {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255,255,255,0.8), 0 0 40px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            text-align: center;
+            padding: 20px;
+        }
+        .btn {
+            margin-top: 30px;
+            padding: 16px 48px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(1.05);
+            border-color: #fff;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        @media (max-width: 600px) {
+            .text { font-size: 2.5rem; }
+            .btn { font-size: 1.2rem; padding: 12px 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video autoplay muted loop playsinline>
+            <source src="https://cdn.coverr.co/videos/coverr-milky-way-1573/1080p.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <div class="overlay">
+        <div class="text">REDMI NOTE 13 PRO PLUS</div>
+        <button class="btn" onclick="checkDevice()">✅ Check Now</button>
+    </div>
+    <script>
+        function checkDevice() {
+            alert('✅ REDMI NOTE 13 PRO PLUS verified!');
+            // Extra magic: a little sparkle effect
+            document.querySelector('.btn').style.background = 'rgba(0, 255, 200, 0.4)';
+            setTimeout(() => {
+                document.querySelector('.btn').style.background = '';
+            }, 500);
+        }
+    </script>
+</body>
+</html>
