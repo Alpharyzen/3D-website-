@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Jack — 3D Creator</title>
 
   <!-- Google Font: Kanit -->
@@ -10,11 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
-  <!-- Tailwind CSS via Play CDN (lightweight) -->
+  <!-- Tailwind CSS via Play CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Reset & base */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { background: #0C0C0C; color: #D7E2EA; font-family: 'Kanit', sans-serif; scroll-behavior: smooth; overflow-x: clip; }
     .hero-heading {
@@ -23,7 +22,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    /* Contact button */
     .contact-btn {
       background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
       box-shadow: 0px 4px 4px rgba(181,1,167,0.25), 4px 4px 12px #7721B1 inset;
@@ -41,7 +39,6 @@
       font-size: clamp(0.8rem, 1.2vw, 1rem);
     }
     .contact-btn:hover { transform: scale(1.04); opacity: 0.9; }
-    /* Live project button */
     .live-btn {
       border: 2px solid #D7E2EA;
       color: #D7E2EA;
@@ -56,15 +53,16 @@
       font-size: clamp(0.7rem, 1vw, 0.9rem);
     }
     .live-btn:hover { background: rgba(215,226,234,0.1); }
-    /* Marquee images */
     .marquee-image {
       width: 420px;
       height: 270px;
       object-fit: cover;
       border-radius: 1rem;
       flex-shrink: 0;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
     }
-    /* Sticky project cards */
     .sticky-card {
       position: sticky;
       top: 24px;
@@ -74,7 +72,6 @@
     .project-img { border-radius: 40px; }
     @media (min-width: 640px) { .project-img { border-radius: 50px; } }
     @media (min-width: 768px) { .project-img { border-radius: 60px; } }
-    /* Fade-in animation for decorative images */
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
@@ -82,7 +79,6 @@
     .animate-fade-in {
       animation: fadeIn 0.9s ease-out forwards;
     }
-    /* Scroll-driven fade-in for sections */
     .fade-section {
       opacity: 0;
       transform: translateY(30px);
@@ -92,10 +88,20 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Character animation for about text (simplified) */
-    .char-anim span {
-      display: inline-block;
-      transition: opacity 0.3s;
+    .marquee-row {
+      display: flex;
+      gap: 12px;
+      will-change: transform;
+      touch-action: none;
+      cursor: grab;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .marquee-row:active {
+      cursor: grabbing;
+    }
+    .marquee-wrapper {
+      overflow: hidden;
     }
   </style>
 </head>
@@ -103,7 +109,6 @@
 
   <!-- ====== HERO ====== -->
   <section class="h-screen flex flex-col relative overflow-x-clip bg-[#0C0C0C]">
-    <!-- Navbar -->
     <nav class="flex justify-between px-6 md:px-10 pt-6 md:pt-8 text-[#D7E2EA] font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem]">
       <a href="#" class="hover:opacity-70 transition-opacity duration-200">About</a>
       <a href="#" class="hover:opacity-70 transition-opacity duration-200">Price</a>
@@ -111,14 +116,12 @@
       <a href="#" class="hover:opacity-70 transition-opacity duration-200">Contact</a>
     </nav>
 
-    <!-- Hero content -->
     <div class="flex-1 flex flex-col justify-between pb-7 sm:pb-8 md:pb-10">
       <div class="overflow-hidden w-full mt-6 sm:mt-4 md:-mt-5">
         <h1 class="hero-heading font-black uppercase tracking-tight leading-none whitespace-nowrap w-full text-[14vw] sm:text-[15vw] md:text-[16vw] lg:text-[17.5vw]">
           Hi, i'm jack
         </h1>
       </div>
-
       <div class="flex justify-between items-end px-6 md:px-10">
         <p class="text-[#D7E2EA] font-light uppercase tracking-wide leading-snug max-w-[160px] sm:max-w-[220px] md:max-w-[260px] text-[clamp(0.75rem,1.4vw,1.5rem)]">
           a 3d creator driven by crafting striking and unforgettable projects
@@ -127,7 +130,6 @@
       </div>
     </div>
 
-    <!-- Portrait with magnetic effect (vanilla) -->
     <div class="absolute left-1/2 -translate-x-1/2 z-10 top-1/2 -translate-y-1/2 sm:top-auto sm:translate-y-0 sm:bottom-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]" id="portrait-wrapper">
       <div id="magnet-container" style="will-change: transform; transition: transform 0.3s ease-out;">
         <img
@@ -141,20 +143,15 @@
   </section>
 
   <!-- ====== MARQUEE ====== -->
-  <section class="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden" id="marquee-section">
+  <section class="bg-[#0C0C0C] pt-24 sm:pt-32 md:pt-40 pb-10 overflow-hidden marquee-wrapper" id="marquee-section">
     <div class="flex flex-col gap-3">
-      <div id="marquee-row1" class="flex gap-3 will-change-transform" style="transform: translateX(-200px);">
-        <!-- Will be filled by JS with 11 images tripled -->
-      </div>
-      <div id="marquee-row2" class="flex gap-3 will-change-transform" style="transform: translateX(200px);">
-        <!-- Will be filled by JS with 10 images tripled -->
-      </div>
+      <div id="marquee-row1" class="marquee-row" style="transform: translateX(0px);"></div>
+      <div id="marquee-row2" class="marquee-row" style="transform: translateX(0px);"></div>
     </div>
   </section>
 
   <!-- ====== ABOUT ====== -->
   <section class="min-h-screen relative px-5 sm:px-8 md:px-10 py-20 flex flex-col items-center justify-center bg-[#0C0C0C]" id="about">
-    <!-- Decorative images -->
     <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/moon_icon.11395d36.png" alt="moon" class="absolute top-[4%] left-[1%] sm:left-[2%] md:left-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.1s;" />
     <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/p59_1.4659672e.png" alt="3d object" class="absolute bottom-[8%] left-[3%] sm:left-[6%] md:left-[10%] w-[100px] sm:w-[140px] md:w-[180px] animate-fade-in" style="animation-delay: 0.25s;" />
     <img src="https://shrug-person-78902957.figma.site/_components/v2/ebb2b8f25d8e24d5f0a5ca8af4c950de81aa2fd7/lego_icon-1.703bb594.png" alt="lego" class="absolute top-[4%] right-[1%] sm:right-[2%] md:right-[4%] w-[120px] sm:w-[160px] md:w-[210px] animate-fade-in" style="animation-delay: 0.15s;" />
@@ -181,7 +178,7 @@
       Services
     </h2>
     <div class="max-w-5xl mx-auto flex flex-col">
-      <!-- item 01 -->
+      <!-- items (same as before) -->
       <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-t border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
         <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">01</div>
         <div class="flex-1">
@@ -189,7 +186,6 @@
           <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Creation of detailed objects, characters, or environments tailored to specific client needs, ideal for games, products, and visualizations.</p>
         </div>
       </div>
-      <!-- item 02 -->
       <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
         <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">02</div>
         <div class="flex-1">
@@ -197,7 +193,6 @@
           <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">High-quality, photorealistic renders that showcase designs with custom lighting, textures, and materials to bring concepts to life.</p>
         </div>
       </div>
-      <!-- item 03 -->
       <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
         <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">03</div>
         <div class="flex-1">
@@ -205,7 +200,6 @@
           <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Dynamic animations and motion graphics that add energy and storytelling to brands, products, and digital experiences.</p>
         </div>
       </div>
-      <!-- item 04 -->
       <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
         <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">04</div>
         <div class="flex-1">
@@ -213,7 +207,6 @@
           <p class="font-light leading-relaxed max-w-2xl text-[clamp(0.85rem,1.6vw,1.25rem)] text-[#0C0C0C] opacity-60">Crafting cohesive visual identities -- from logos to full brand systems -- that communicate a clear and memorable presence.</p>
         </div>
       </div>
-      <!-- item 05 -->
       <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-8 border-b border-[rgba(12,12,12,0.15)] py-8 sm:py-10 md:py-12 fade-section">
         <div class="text-[clamp(3rem,10vw,140px)] font-black text-[#0C0C0C] leading-none sm:min-w-[120px]">05</div>
         <div class="flex-1">
@@ -229,13 +222,11 @@
     <h2 class="hero-heading font-black uppercase text-center leading-none tracking-tight text-[clamp(3rem,12vw,160px)] mb-16">
       Project
     </h2>
-    <div class="max-w-6xl mx-auto space-y-8" id="project-stack">
-      <!-- Will be injected by JS -->
-    </div>
+    <div class="max-w-6xl mx-auto space-y-8" id="project-stack"></div>
   </section>
 
   <script>
-    // ====== MARQUEE ======
+    // ====== MARQUEE DATA ======
     const gifs1 = [
       'https://motionsites.ai/assets/hero-space-voyage-preview-eECLH3Yc.gif',
       'https://motionsites.ai/assets/hero-codenest-preview-Cgppc2qV.gif',
@@ -265,42 +256,98 @@
     function buildMarquee(rowId, images) {
       const row = document.getElementById(rowId);
       if (!row) return;
-      // triple the images for seamless loop
       const all = [...images, ...images, ...images];
       all.forEach(src => {
         const img = document.createElement('img');
         img.src = src;
         img.className = 'marquee-image object-cover rounded-2xl flex-shrink-0';
         img.loading = 'lazy';
+        img.draggable = false;
         row.appendChild(img);
       });
     }
     buildMarquee('marquee-row1', gifs1);
     buildMarquee('marquee-row2', gifs2);
 
-    // Marquee scroll effect
-    const marqueeSection = document.getElementById('marquee-section');
+    // ====== TOUCH-DRAG + SCROLL-DRIVEN MARQUEE ======
     const row1 = document.getElementById('marquee-row1');
     const row2 = document.getElementById('marquee-row2');
-    let marqueeOffset = 200; // initial offset
+    const marqueeSection = document.getElementById('marquee-section');
 
-    window.addEventListener('scroll', () => {
+    let row1Offset = 0;
+    let row2Offset = 0;
+    let isDragging = false;
+
+    // ---- Scroll-driven movement ----
+    function updateMarqueeScroll() {
+      if (isDragging) return;
       if (!marqueeSection) return;
       const rect = marqueeSection.getBoundingClientRect();
-      const scrollY = window.scrollY;
-      const sectionTop = rect.top + scrollY;
-      const offset = (scrollY - sectionTop + window.innerHeight) * 0.3;
-      const clamped = Math.min(200, Math.max(-200, offset));
-      row1.style.transform = `translateX(${clamped - 200}px)`;
-      row2.style.transform = `translateX(${-(clamped - 200)}px)`;
-    }, { passive: true });
+      const windowHeight = window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (windowHeight - rect.top) / (windowHeight + rect.height)));
+      const maxOffset = 300;
+      const offset = progress * maxOffset;
+      row1Offset = -offset;
+      row2Offset = offset;
+      row1.style.transform = `translateX(${row1Offset}px)`;
+      row2.style.transform = `translateX(${row2Offset}px)`;
+    }
+
+    window.addEventListener('scroll', updateMarqueeScroll, { passive: true });
+    updateMarqueeScroll();
+
+    // ---- Drag with pointer events (both rows move naturally) ----
+    function initDrag(row, rowOffsetRef, setOffset) {
+      let startX = 0;
+      let startOffset = 0;
+      let isDraggingRow = false;
+
+      const onPointerDown = (e) => {
+        e.preventDefault();
+        isDragging = true;
+        isDraggingRow = true;
+        startX = e.clientX;
+        startOffset = rowOffsetRef;
+        row.setPointerCapture(e.pointerId);
+        row.style.cursor = 'grabbing';
+      };
+
+      const onPointerMove = (e) => {
+        if (!isDraggingRow) return;
+        e.preventDefault();
+        const dx = (e.clientX - startX) * 0.8;
+        const newOffset = startOffset + dx;
+        setOffset(newOffset);
+        row.style.transform = `translateX(${newOffset}px)`;
+      };
+
+      const onPointerUp = (e) => {
+        if (!isDraggingRow) return;
+        isDraggingRow = false;
+        isDragging = false;
+        row.style.cursor = 'grab';
+      };
+
+      row.addEventListener('pointerdown', onPointerDown);
+      document.addEventListener('pointermove', onPointerMove);
+      document.addEventListener('pointerup', onPointerUp);
+
+      row._cleanup = () => {
+        row.removeEventListener('pointerdown', onPointerDown);
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+      };
+    }
+
+    // Init both rows with natural drag (direction same as offset sign)
+    initDrag(row1, row1Offset, (val) => { row1Offset = val; });
+    initDrag(row2, row2Offset, (val) => { row2Offset = val; });
 
     // ====== MAGNET EFFECT ======
     const magnetContainer = document.getElementById('magnet-container');
     const portraitWrapper = document.getElementById('portrait-wrapper');
 
     if (magnetContainer && portraitWrapper) {
-      let isActive = false;
       let posX = 0, posY = 0;
       const strength = 3;
       const padding = 150;
@@ -313,28 +360,24 @@
         const dy = e.clientY - centerY;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < padding) {
-          isActive = true;
           const factor = strength / 10;
           posX = dx * factor;
           posY = dy * factor;
           magnetContainer.style.transition = 'transform 0.3s ease-out';
           magnetContainer.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
         } else {
-          isActive = false;
           magnetContainer.style.transition = 'transform 0.6s ease-in-out';
           magnetContainer.style.transform = 'translate3d(0, 0, 0)';
         }
       });
 
       portraitWrapper.addEventListener('mouseleave', () => {
-        isActive = false;
         magnetContainer.style.transition = 'transform 0.6s ease-in-out';
         magnetContainer.style.transform = 'translate3d(0, 0, 0)';
       });
     }
 
     // ====== ABOUT TEXT CHARACTER ANIMATION ======
-    // We'll use a simpler scroll-based opacity for each character
     const aboutText = document.getElementById('about-text');
     if (aboutText) {
       const text = aboutText.textContent;
@@ -374,7 +417,7 @@
     }, { threshold: 0.15 });
     fadeSections.forEach(el => observer.observe(el));
 
-    // ====== PROJECTS (sticky cards with scale) ======
+    // ====== PROJECTS (sticky cards) ======
     const projectData = [
       {
         id: '01',
@@ -430,7 +473,6 @@
         inner.style.transform = `scale(${scale})`;
         inner.style.transformOrigin = 'top center';
 
-        // top row
         const topRow = document.createElement('div');
         topRow.className = 'flex flex-wrap items-start justify-between gap-4 mb-6';
 
@@ -460,7 +502,6 @@
         topRow.appendChild(rightGroup);
         inner.appendChild(topRow);
 
-        // image grid
         const grid = document.createElement('div');
         grid.className = 'flex gap-4';
 
@@ -493,7 +534,7 @@
       });
     }
 
-    // ====== SMOOTH NAV SCROLL (optional) ======
+    // ====== NAV SCROLL ======
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -505,7 +546,7 @@
       });
     });
 
-    console.log('✅ Page loaded successfully');
+    console.log('✅ Page loaded — marquee drag direction fixed (top left, bottom right)');
   </script>
 </body>
 </html>
